@@ -3,13 +3,12 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import CourseList from './components/CourseList';
+import View from './view';
 
 function App() {
-  console.log(12)
   return (
     <Provider store={store}>
-      <CourseList />
+      <View />
     </Provider>
   );
 }
