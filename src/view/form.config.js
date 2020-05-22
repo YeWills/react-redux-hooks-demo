@@ -1,9 +1,13 @@
-export default {
+
+const formConfig = {
   fields: [
-    { name: 'useName', title: 'user name', type: 'input', required: true },
+    { name: 'useName', 
+    defaultValue:'111',
+    title: 'user name', type: 'input', required: true },
     { name: 'region',
       title: 'region',
       type: 'select',
+      defaultValue:'111',
       options: [{
         lable: 'china',
         value: 'china',
@@ -16,6 +20,8 @@ export default {
       }],
       required: true
     },
-    { name: 'passWord', title: 'password', type: 'input', rule: (e) => e.length > 6 },
+    { name: 'passWord', defaultValue:'111', title: 'password', type: 'input', rule: (e) => e.length > 6 },
   ],
 };
+
+export default formConfig;
