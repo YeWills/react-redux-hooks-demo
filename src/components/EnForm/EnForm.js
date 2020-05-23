@@ -1,17 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import EInput from './EInput/EInput';
+import Field from './Field/Field';
 import { Btn } from './utils';
+import v, {validateForm} from './validate';
 import './style.less';
 
-const Comp = {
-  input: EInput,
-  select: EInput,
 
-};
 export default function EnForm(props) {
   const { config, onSubmit: propsOnSubmit, Btn } = props;
-  //   const formValue = useRef({});
+  const startValidate = useRef(false);
+  const [errMsgs, setErrMsgs] = useState({});
   useEffect((t) => {
     config.fields;
   }, []);
@@ -23,24 +21,26 @@ export default function EnForm(props) {
     }, {});
   });
   const content = config.fields.map((field) => {
-    const TypeField = Comp[field.type];
-    const { name } = field;
-    return (
-      <div key={field.name} className="field-cell">
-        <span className="field-title">{field.title}</span>
-        <div className="field-value">
-          <TypeField
-            formValue={formValue}
-            value={formValue[field.name]}
-            onChange={(value) => { setValue({ ...formValue, [name]: value }); }}
-          />
-        </div>
-      </div>
-    );
+    return <Field 
+             key={field.name} 
+             field={field} 
+             formValue={formValue} 
+             setValue={setValue} 
+             errorMsgs={errMsgs}
+             setErrMsgs={setErrMsgs}
+             startValidate={startValidate.current} 
+          />;
   });
 
 
   const onSubmit = () => {
+    startValidate.current = true;
+    const isExistError = Object.values(errMsgs).every(err=>err);
+    if(isExistError) return;
+    const currentErrMsgs = validateForm(config, formValue);
+    const isValidatePass = Object.values(currentErrMsgs).every(err=>!err);
+    setErrMsgs(currentErrMsgs);
+    if(!isValidatePass) return;
     propsOnSubmit && propsOnSubmit(formValue);
   };
 

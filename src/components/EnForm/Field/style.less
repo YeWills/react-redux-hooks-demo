@@ -1,0 +1,30 @@
+
+.field-cell{
+    &.required{
+        .field-title{
+            position: relative;
+            &::after{
+                content: '*';
+                color: red;
+                position: absolute;
+                right: -10px;
+                top: 50%;
+                transform: translateY(~"calc(-50% + 2px)");
+                display: inline-block;
+            }
+
+        }
+    }
+    &.error-cell{
+        input{
+            border: 1px solid red;
+            &:focus{
+                outline: red auto 2px;
+            }
+        }
+    }
+    .error{
+        color: red;
+    }
+  
+}
