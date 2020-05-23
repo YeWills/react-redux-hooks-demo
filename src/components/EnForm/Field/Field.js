@@ -17,8 +17,8 @@ const Field = ({ field, formValue, setValue, startValidate, errorMsgs, setErrMsg
 
   const onChange = (value) => { 
       if(startValidate){
-       const errorMsg =  v(field, value);
-       setErrMsgs({[name]: errorMsg})
+       const errorMsg =  v(field, value, formValue);
+       setErrMsgs({...errorMsgs,...errorMsg})
       }
       console.log({ ...formValue, [name]: value })
       setValue({ ...formValue, [name]: value });

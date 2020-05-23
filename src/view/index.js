@@ -18,7 +18,7 @@ export default function View() {
       title="登录"
       config={formConfig}
       onSubmit={onSubmit}
-      Btn={CustomBtn}
+      // Btn={CustomBtn}
     />
   );
 }

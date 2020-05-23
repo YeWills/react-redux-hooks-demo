@@ -35,19 +35,25 @@ export default function EnForm(props) {
 
   const onSubmit = () => {
     startValidate.current = true;
-    const isExistError = Object.values(errMsgs).every(err=>err);
-    if(isExistError) return;
+    // const isExistError = Object.values(errMsgs).some(err=>err);
+    // if(isExistError) return;
     const currentErrMsgs = validateForm(config, formValue);
     const isValidatePass = Object.values(currentErrMsgs).every(err=>!err);
+    console.log(currentErrMsgs)
     setErrMsgs(currentErrMsgs);
     if(!isValidatePass) return;
     propsOnSubmit && propsOnSubmit(formValue);
   };
 
+  const onReset = ()=>{
+    setValue({});
+    setErrMsgs({});
+  }
+
   return (
     <div className="enhance-form">
       {content}
-      <Btn onSubmit={onSubmit} formValue={formValue} setFormValue={setValue} />
+      <Btn onSubmit={onSubmit} formValue={formValue} setFormValue={setValue} onReset={onReset} />
     </div>
   );
 }
