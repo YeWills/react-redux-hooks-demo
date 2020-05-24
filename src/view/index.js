@@ -17,6 +17,7 @@ export default function View() {
     <EnForm
       title="登录"
       config={formConfig}
+      rows={8}
       onSubmit={onSubmit}
       // Btn={CustomBtn}
     />

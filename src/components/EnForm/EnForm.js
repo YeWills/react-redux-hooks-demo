@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Field from './Field/Field';
-import { Btn } from './utils';
+import { Btn, getLayout } from './utils';
 import v, {validateForm} from './validate';
 import './style.less';
 
 
 export default function EnForm(props) {
-  const { config, onSubmit: propsOnSubmit, Btn } = props;
+  const { config, onSubmit: propsOnSubmit, Btn, rows } = props;
   const startValidate = useRef(false);
   const [errMsgs, setErrMsgs] = useState({});
   const [formDisplay, setDisplay] = useState(()=>{
@@ -31,7 +31,7 @@ export default function EnForm(props) {
       return newValue;
     }, {});
   });
-  const content = config.fields.map((field) => {
+  let content = config.fields.map((field) => {
     return <Field 
              key={field.name} 
              formDisplay={formDisplay} 
@@ -45,6 +45,7 @@ export default function EnForm(props) {
           />;
   });
 
+  content = getLayout(content, rows);
 
   const onSubmit = () => {
     startValidate.current = true;
@@ -61,14 +62,19 @@ export default function EnForm(props) {
     setErrMsgs({});
   }
 
+  console.log(content)
+
   return (
     <div className="enhance-form">
-      {content}
+      <div className="enform-content">
+        {content}
+      </div>
       <Btn onSubmit={onSubmit} formValue={formValue} setFormValue={setValue} onReset={onReset} />
     </div>
   );
 }
 
 EnForm.defaultProps = {
-  Btn
+  Btn,
+  rows:8
 };
