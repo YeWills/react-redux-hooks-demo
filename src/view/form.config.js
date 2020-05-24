@@ -1,7 +1,20 @@
+import CustomInput from './component/CustomInput';
 
 const formConfig = {
   fields: [
     { 
+      name: 'editname', 
+      defaultValue:'6',
+      title: 'edit user name', 
+      Render: CustomInput,
+      validate:[[(value,formValue)=>{
+        if(String(value).length> String(formValue['region']).length){
+          return 'hellow region';
+        }
+        return ''
+      }, ['region']]],
+      required: '这是必11填的。。。' 
+    },  { 
       name: 'useName', 
       defaultValue:'6',
       title: 'user name', 
@@ -23,7 +36,7 @@ const formConfig = {
           return 'no small useName';
         }
         return ''
-      }, ['useName']]],
+      }, ['useName', 'editname']]],
       options: [{
         lable: 'china',
         value: 'china',
@@ -41,7 +54,7 @@ const formConfig = {
       defaultValue:'111', 
       title: 'password', 
       type: 'input', 
-      rule: (e) => e.length > 6 
+      required: true
     },
   ],
 };

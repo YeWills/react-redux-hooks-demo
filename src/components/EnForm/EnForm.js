@@ -10,6 +10,17 @@ export default function EnForm(props) {
   const { config, onSubmit: propsOnSubmit, Btn } = props;
   const startValidate = useRef(false);
   const [errMsgs, setErrMsgs] = useState({});
+  const [formDisplay, setDisplay] = useState(()=>{
+    return config.fields.reduce((acc, field)=>{
+      const{name, disabled, readOnly} = field;
+      if(!acc[name]) acc[field.name] = {}
+      acc[name] = {
+        disabled,
+        readOnly,
+      }
+      return acc;
+    }, {})
+  });
   useEffect((t) => {
     config.fields;
   }, []);
@@ -23,6 +34,8 @@ export default function EnForm(props) {
   const content = config.fields.map((field) => {
     return <Field 
              key={field.name} 
+             formDisplay={formDisplay} 
+             setDisplay={setDisplay} 
              field={field} 
              formValue={formValue} 
              setValue={setValue} 
@@ -35,9 +48,7 @@ export default function EnForm(props) {
 
   const onSubmit = () => {
     startValidate.current = true;
-    // const isExistError = Object.values(errMsgs).some(err=>err);
-    // if(isExistError) return;
-    const currentErrMsgs = validateForm(config, formValue);
+    const currentErrMsgs = validateForm(config, formValue, formDisplay);
     const isValidatePass = Object.values(currentErrMsgs).every(err=>!err);
     console.log(currentErrMsgs)
     setErrMsgs(currentErrMsgs);

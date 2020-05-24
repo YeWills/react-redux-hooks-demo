@@ -9,31 +9,54 @@ const Comp = {
   select: EInput,
 };
 
-const Field = ({ field, formValue, setValue, startValidate, errorMsgs, setErrMsgs }) => {
+const Field = (props) => {
+  const { formDisplay, field, formValue, setValue, startValidate, errorMsgs, setErrMsgs } = props;
+  const { name, required, Render } = field;
   const TypeField = Comp[field.type];
-  const { name, required } = field;
-  // const [errMsg, setErrMsg] = ('');
+
+
+  const defaultGetNewFormValue = (value)=>{
+    return { ...formValue, [name]: value }
+  }  
+  
+  const defaultValidate = (value)=>{
+    if(startValidate){
+      const errorMsg =  v(field, value, formValue);
+      setErrMsgs({...errorMsgs,...errorMsg})
+     }
+  }
   
 
-  const onChange = (value) => { 
-      if(startValidate){
-       const errorMsg =  v(field, value, formValue);
-       setErrMsgs({...errorMsgs,...errorMsg})
-      }
-      console.log({ ...formValue, [name]: value })
-      setValue({ ...formValue, [name]: value });
+  const onChange = (value,getNewFormValue = defaultGetNewFormValue, validateHandle = defaultValidate) => { 
+      validateHandle(value, field, props)
+      setValue(getNewFormValue(value, field, props));
     };
 
+  const {disabled, readOnly, delete:del} = formDisplay[name]
+  if(del) return '';
 
   return (
-    <div key={field.name} className={classnames("field-cell", {required}, {['error-cell']:!!errorMsgs[name]})}>
+    <div className={classnames("field-cell", {required}, {['error-cell']:!!errorMsgs[name]})}>
       <span className="field-title">{field.title}</span>
       <div className="field-value">
-        <TypeField
-          formValue={formValue}
-          value={formValue[field.name] || ''}
-          onChange={onChange}
+        {
+          Render ?
+          <Render
+            value={formValue[name] || ''}
+            onChange={onChange}
+            field={field}
+            {...props}
+          />
+          :
+          <TypeField
+            formValue={formValue}
+            value={formValue[name] || ''}
+            onChange={onChange}
+            disabled={disabled}
+            readOnly={readOnly}
         />
+        }
+        
         <div className="error">{errorMsgs[name]}</div>
       </div>
     </div>

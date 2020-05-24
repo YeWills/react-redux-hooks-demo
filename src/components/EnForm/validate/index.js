@@ -1,5 +1,4 @@
 import rules from './rule';
-import Field from '../Field/Field';
 import { toArray } from '../utils';
 
 class ValidateHelper{
@@ -7,12 +6,10 @@ class ValidateHelper{
         if(!ValidateHelper.instance){
             ValidateHelper.instance = this;
             this.relateFieldMaps = this.getRelateFieldMap(formConfig);
-            console.log(this.relateFieldMaps)
         }
         return ValidateHelper.instance;
     }
     getRelateFieldMap = (formConfig)=>{
-        console.log(1111)
         return formConfig.fields.reduce((acc, field)=>{
             const {validate : customValidates} = field;
             toArray(customValidates).forEach((customValidate)=>{
@@ -49,7 +46,6 @@ const validateField = (field, value, formValue)=>{
         errMsg = rultFn();
         return errMsg
     });
-    console.log(errMsg)
     return errMsg;
 }
 const validate = (field, value, formValue)=>{
@@ -63,16 +59,17 @@ const validate = (field, value, formValue)=>{
         return errMsgs;
     }, {})
 
-    console.log(reult)
-
     return reult;
 }
 
 export default validate;
 
-export const validateForm = (config, formValue)=>{
+export const validateForm = (config, formValue, formDisplay)=>{
     new ValidateHelper(config);
-   return config.fields.reduce((acc, field)=>{
+   const displayFields =  config.fields.filter(field=> {
+       return !formDisplay[field.name].delete
+   })
+   return displayFields.reduce((acc, field)=>{
         const name = field.name;
         acc[name] = validateField(field, formValue[name], formValue);
         return acc;
