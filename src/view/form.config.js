@@ -29,7 +29,7 @@ const formConfig = {
     },
     { name: 'region',
       title: 'region',
-      type: 'select',
+      type: 'input',
       defaultValue:'',
       validate:[[(value,formValue)=>{
         if(String(value).length< String(formValue['useName']).length){
@@ -37,16 +37,6 @@ const formConfig = {
         }
         return ''
       }, ['useName', 'editname']]],
-      options: [{
-        lable: 'china',
-        value: 'china',
-      }, {
-        lable: 'usa',
-        value: 'usa',
-      }, {
-        lable: 'englend',
-        value: 'englend',
-      }],
       required: true
     },
     { 
@@ -56,6 +46,25 @@ const formConfig = {
       type: 'input', 
       required: true
     },
+    { name: 'select',
+    title: 'place',
+    type: 'select',
+    defaultValue:'home',
+    options: [{
+      lable: 'china',
+      value: 'china',
+    }, {
+      lable: 'usa',
+      value: 'usa',
+    }, {
+      lable: 'englend',
+      value: 'englend',
+    }, {
+      lable: 'home',
+      value: 'home',
+    }],
+    required: true
+  },
   ],
 };
 

@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classnames from 'classnames';
 import EInput from '../EInput/EInput';
+import Eselect from '../Eselect/Eselect';
 import v from '../validate';
 import './style.less';
 
+
 const Comp = {
   input: EInput,
-  select: EInput,
+  select: Eselect,
 };
 
 const Field = (props) => {
@@ -52,6 +54,7 @@ const Field = (props) => {
             formValue={formValue}
             value={formValue[name] || ''}
             onChange={onChange}
+            field={field}
             disabled={disabled}
             readOnly={readOnly}
         />
