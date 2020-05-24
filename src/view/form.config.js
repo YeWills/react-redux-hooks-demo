@@ -65,56 +65,7 @@ const formConfig = {
     }],
     required: true
   },
-  { 
-    name: 'girl1', 
-    title: 'girl1', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl2', 
-    title: 'girl2', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl3', 
-    title: 'girl3', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl4', 
-    title: 'girl4', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl5', 
-    title: 'girl5', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl6', 
-    title: 'girl6', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl7', 
-    title: 'girl7', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl8', 
-    title: 'girl8', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl9', 
-    title: 'girl9', 
-    type: 'input', 
-  },
-  { 
-    name: 'girl10', 
-    title: 'girl10', 
-    type: 'input', 
-  },
+  
   ],
 };
 

@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import Field from './Field/Field';
-import { Btn, getLayout } from './utils';
+import { Btn, getLayout, toArray } from './utils';
 import v, {validateForm} from './validate';
 import './style.less';
 
 
 export default function EnForm(props) {
-  const { config, onSubmit: propsOnSubmit, Btn, rows } = props;
+  const { config, onSubmit: propsOnSubmit, Btn, rows, layoutMode, children } = props;
+
+  const configInfo = useRef({});
   const startValidate = useRef(false);
   const [errMsgs, setErrMsgs] = useState({});
   const [formDisplay, setDisplay] = useState(()=>{
@@ -18,6 +21,7 @@ export default function EnForm(props) {
         disabled,
         readOnly,
       }
+      configInfo.current[name]=field;
       return acc;
     }, {})
   });
@@ -31,21 +35,58 @@ export default function EnForm(props) {
       return newValue;
     }, {});
   });
-  let content = config.fields.map((field) => {
-    return <Field 
-             key={field.name} 
-             formDisplay={formDisplay} 
-             setDisplay={setDisplay} 
-             field={field} 
-             formValue={formValue} 
-             setValue={setValue} 
-             errorMsgs={errMsgs}
-             setErrMsgs={setErrMsgs}
-             startValidate={startValidate.current} 
-          />;
-  });
 
-  content = getLayout(content, rows);
+  let content = '';
+  if(layoutMode === 'default'){
+    content = config.fields.map((field) => {
+      return <Field 
+               key={field.name} 
+               formDisplay={formDisplay} 
+               setDisplay={setDisplay} 
+               field={field} 
+               formValue={formValue} 
+               setValue={setValue} 
+               errorMsgs={errMsgs}
+               setErrMsgs={setErrMsgs}
+               startValidate={startValidate.current} 
+            />;
+    });
+    content = getLayout(content, rows);
+  }
+
+  if(layoutMode === 'custom'){
+    
+  const getProps =(props)=>{
+    const {name} = props;
+             return {
+              ...props,
+              key:`enfield${name}`,
+              formDisplay:formDisplay,
+              setDisplay:setDisplay, 
+              field:configInfo.current[name], 
+              formValue:formValue, 
+              setValue:setValue, 
+              errorMsgs:errMsgs,
+              setErrMsgs:setErrMsgs,
+              startValidate:startValidate.current, 
+             }
+            }
+  content = children.map((cell, index)=>{
+    if(cell.props.enfield){
+      return React.cloneElement(cell,  getProps(cell.props))
+    }
+    const cellChilds = toArray(cell.props.children);
+    if(!cellChilds.find(t=> _.get(t,'props.enfield'))) return cell;
+    const newChildren = cellChilds.map((t)=>{
+      if(_.get(t,'props.enfield')){
+        return React.cloneElement(t,  getProps(t.props))
+      }
+      return t;
+    })
+    return React.cloneElement(cell, {...cell.props, children:newChildren, key:index});
+  })
+  }
+  
 
   const onSubmit = () => {
     startValidate.current = true;
@@ -62,8 +103,6 @@ export default function EnForm(props) {
     setErrMsgs({});
   }
 
-  console.log(content)
-
   return (
     <div className="enhance-form">
       <div className="enform-content">
@@ -76,5 +115,8 @@ export default function EnForm(props) {
 
 EnForm.defaultProps = {
   Btn,
-  rows:8
+  rows:8,
+  layoutMode:'default',
 };
+
+EnForm.Field = Field;
