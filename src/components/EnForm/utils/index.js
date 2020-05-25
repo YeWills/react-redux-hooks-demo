@@ -44,3 +44,6 @@ export const getLayout = (fields, rowsLength)=>{
   }
   return layouts;
 }
+
+
+ export const ThemeContext = React.createContext({});

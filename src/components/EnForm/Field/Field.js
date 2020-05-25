@@ -1,7 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import classnames from 'classnames';
 import EInput from '../EInput/EInput';
 import Eselect from '../Eselect/Eselect';
+import { ThemeContext } from '../utils';
+
 import v from '../validate';
 import './style.less';
 
@@ -36,6 +38,11 @@ const Field = (props) => {
 
   const {disabled, readOnly, delete:del} = formDisplay[name]
   if(del) return '';
+
+  const theme = useContext(ThemeContext);
+
+  console.log(theme)
+  
 
   return (
     <div className={classnames("field-cell", {required}, {['error-cell']:!!errorMsgs[name]})}>

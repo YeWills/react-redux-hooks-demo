@@ -25,18 +25,22 @@ export default function View() {
         // Btn={CustomBtn}
       >
         <div >
-          <EnForm.Field className="form-cell" enfield name="editname" />
+          <div>
+            <div>
+            <EnForm.EnField className="form-cell" enfield name="editname" />
+            </div>
+          </div>
         </div>
         
         <p>天若有情天亦老</p>
-        <EnForm.Field className="form-cell" enfield name="useName" />
+        <EnForm.EnField className="form-cell" enfield name="useName" />
         <div className="region">
           <div>123456---</div>
-          <EnForm.Field className="form-cell" enfield name="region" />
+          <EnForm.EnField className="form-cell" enfield name="region" />
           <div>1258----</div>
-          <EnForm.Field className="form-cell" enfield name="passWord" />
+          <EnForm.EnField className="form-cell" enfield name="passWord" />
         </div>
-        <EnForm.Field className="form-cell" enfield name="select" />
+        <EnForm.EnField className="form-cell" enfield name="select" />
      </EnForm>
     </div>
     

@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import Field from './Field/Field';
-import { Btn, getLayout, toArray } from './utils';
+import EnhanceField from './Field/EnhanceField';
+import { Btn, getLayout, toArray, ThemeContext } from './utils';
 import v, {validateForm} from './validate';
 import './style.less';
 
 
 export default function EnForm(props) {
   const { config, onSubmit: propsOnSubmit, Btn, rows, layoutMode, children } = props;
-
   const configInfo = useRef({});
   const startValidate = useRef(false);
   const [errMsgs, setErrMsgs] = useState({});
@@ -54,39 +54,6 @@ export default function EnForm(props) {
     content = getLayout(content, rows);
   }
 
-  if(layoutMode === 'custom'){
-    
-  const getProps =(props)=>{
-    const {name} = props;
-             return {
-              ...props,
-              key:`enfield${name}`,
-              formDisplay:formDisplay,
-              setDisplay:setDisplay, 
-              field:configInfo.current[name], 
-              formValue:formValue, 
-              setValue:setValue, 
-              errorMsgs:errMsgs,
-              setErrMsgs:setErrMsgs,
-              startValidate:startValidate.current, 
-             }
-            }
-  content = children.map((cell, index)=>{
-    if(cell.props.enfield){
-      return React.cloneElement(cell,  getProps(cell.props))
-    }
-    const cellChilds = toArray(cell.props.children);
-    if(!cellChilds.find(t=> _.get(t,'props.enfield'))) return cell;
-    const newChildren = cellChilds.map((t)=>{
-      if(_.get(t,'props.enfield')){
-        return React.cloneElement(t,  getProps(t.props))
-      }
-      return t;
-    })
-    return React.cloneElement(cell, {...cell.props, children:newChildren, key:index});
-  })
-  }
-  
 
   const onSubmit = () => {
     startValidate.current = true;
@@ -103,10 +70,36 @@ export default function EnForm(props) {
     setErrMsgs({});
   }
 
+      const getContent = ()=>{
+        if(layoutMode==='custom'){
+        const fieldExtraProps = {
+          // ...props,
+          // key:`enfield${name}`,
+          formDisplay:formDisplay,
+          setDisplay:setDisplay, 
+          configInfo: configInfo.current, 
+          formValue:formValue, 
+          setValue:setValue, 
+          errorMsgs:errMsgs,
+          setErrMsgs:setErrMsgs,
+          startValidate:startValidate.current, 
+          }
+
+    return  (
+      <ThemeContext.Provider value={fieldExtraProps}>
+    {children}
+    </ThemeContext.Provider>
+    )
+        }
+        return content
+      }
+      
+ 
+
   return (
     <div className="enhance-form">
       <div className="enform-content">
-        {content}
+        {getContent()}
       </div>
       <Btn onSubmit={onSubmit} formValue={formValue} setFormValue={setValue} onReset={onReset} />
     </div>
@@ -120,3 +113,4 @@ EnForm.defaultProps = {
 };
 
 EnForm.Field = Field;
+EnForm.EnField = EnhanceField;
