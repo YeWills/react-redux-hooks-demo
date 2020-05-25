@@ -25,22 +25,22 @@ export default function View() {
         <div >
           <div>
             <div>
-              随意排列
+              随意排列,任意写入内容
             </div>
             <div>
-            <EnForm.EnField className="form-cell" enfield name="editname" />
+            <EnForm.EnField className="form-cell" name="editname" />
             </div>
           </div>
         </div>
         <p>hellow world</p>
-        <EnForm.EnField className="form-cell" enfield name="useName" />
+        <EnForm.EnField className="form-cell" name="useName" />
         <div className="region">
           <div>任意位置</div>
-          <EnForm.EnField className="form-cell" enfield name="region" />
+          <EnForm.EnField className="form-cell" name="region" />
           <div>自由放置</div>
-          <EnForm.EnField className="form-cell" enfield name="passWord" />
+          <EnForm.EnField className="form-cell" name="passWord" />
         </div>
-        <EnForm.EnField className="form-cell" enfield name="select" />
+        <EnForm.EnField className="form-cell" name="select" />
      </EnForm>
     </div>
   );
