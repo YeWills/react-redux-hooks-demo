@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Field from './Field/Field';
 import EnhanceField from './Field/EnhanceField';
 import { Btn, getLayout, toArray, ThemeContext } from './utils';
-import v, {validateForm} from './validate';
+import v, { validateForm } from './validate';
 import './style.less';
 
 
@@ -13,88 +13,79 @@ export default function EnForm(props) {
   const configInfo = useRef({});
   const startValidate = useRef(false);
   const [errMsgs, setErrMsgs] = useState({});
-  const [formDisplay, setDisplay] = useState(()=>{
-    return config.fields.reduce((acc, field)=>{
-      const{name, disabled, readOnly} = field;
-      if(!acc[name]) acc[field.name] = {}
+  const [formDisplay, setDisplay] = useState(() => {
+    return config.fields.reduce((acc, field) => {
+      const { name, disabled, readOnly } = field;
+      if (!acc[name]) acc[field.name] = {};
       acc[name] = {
         disabled,
         readOnly,
-      }
-      configInfo.current[name]=field;
+      };
+      configInfo.current[name] = field;
       return acc;
-    }, {})
+    }, {});
   });
-  useEffect((t) => {
-    config.fields;
-  }, []);
+
   const [formValue, setValue] = useState(() => {
     return config.fields.reduce((newValue, item) => {
       const { name, defaultValue } = item;
+      // eslint-disable-next-line no-param-reassign
       newValue[name] = defaultValue;
       return newValue;
     }, {});
   });
 
-  let content = '';
-  if(layoutMode === 'default'){
-    content = config.fields.map((field) => {
-      return <Field 
-               key={field.name} 
-               formDisplay={formDisplay} 
-               setDisplay={setDisplay} 
-               field={field} 
-               formValue={formValue} 
-               setValue={setValue} 
-               errorMsgs={errMsgs}
-               setErrMsgs={setErrMsgs}
-               startValidate={startValidate.current} 
-            />;
-    });
-    content = getLayout(content, rows);
-  }
-
-
   const onSubmit = () => {
     startValidate.current = true;
     const currentErrMsgs = validateForm(config, formValue, formDisplay);
-    const isValidatePass = Object.values(currentErrMsgs).every(err=>!err);
-    console.log(currentErrMsgs)
+    const isValidatePass = Object.values(currentErrMsgs).every(err => !err);
     setErrMsgs(currentErrMsgs);
-    if(!isValidatePass) return;
+    if (!isValidatePass) return;
     propsOnSubmit && propsOnSubmit(formValue);
   };
 
-  const onReset = ()=>{
+  const onReset = () => {
     setValue({});
     setErrMsgs({});
-  }
+  };
 
-      const getContent = ()=>{
-        if(layoutMode==='custom'){
-        const fieldExtraProps = {
-          // ...props,
-          // key:`enfield${name}`,
-          formDisplay:formDisplay,
-          setDisplay:setDisplay, 
-          configInfo: configInfo.current, 
-          formValue:formValue, 
-          setValue:setValue, 
-          errorMsgs:errMsgs,
-          setErrMsgs:setErrMsgs,
-          startValidate:startValidate.current, 
-          }
+  const getContent = () => {
+    if (layoutMode === 'custom') {
+      const fieldExtraProps = {
+        formDisplay,
+        setDisplay,
+        configInfo: configInfo.current,
+        formValue,
+        setValue,
+        errorMsgs: errMsgs,
+        setErrMsgs,
+        startValidate: startValidate.current,
+      };
+      return (
+        <ThemeContext.Provider value={fieldExtraProps}>
+          {children}
+        </ThemeContext.Provider>
+      );
+    }
 
-    return  (
-      <ThemeContext.Provider value={fieldExtraProps}>
-    {children}
-    </ThemeContext.Provider>
-    )
-        }
-        return content
-      }
-      
- 
+    const content = config.fields.map((field) => {
+      return (
+        <Field
+          key={field.name}
+          formDisplay={formDisplay}
+          setDisplay={setDisplay}
+          field={field}
+          formValue={formValue}
+          setValue={setValue}
+          errorMsgs={errMsgs}
+          setErrMsgs={setErrMsgs}
+          startValidate={startValidate.current}
+        />
+      );
+    });
+    return getLayout(content, rows);
+  };
+
 
   return (
     <div className="enhance-form">
@@ -108,8 +99,8 @@ export default function EnForm(props) {
 
 EnForm.defaultProps = {
   Btn,
-  rows:8,
-  layoutMode:'default',
+  rows: 8,
+  layoutMode: 'default',
 };
 
 EnForm.Field = Field;

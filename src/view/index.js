@@ -27,11 +27,13 @@ export default function View() {
         <div >
           <div>
             <div>
+              随意排列
+            </div>
+            <div>
             <EnForm.EnField className="form-cell" enfield name="editname" />
             </div>
           </div>
         </div>
-        
         <p>天若有情天亦老</p>
         <EnForm.EnField className="form-cell" enfield name="useName" />
         <div className="region">
