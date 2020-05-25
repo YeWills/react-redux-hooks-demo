@@ -12,17 +12,15 @@ export default function View() {
     console.log(form);
   };
 
-  const CustomBtn = customBtn();
+  // const CustomBtn = customBtn();
 
   return (
     <div className="app-conten">
       <EnForm
         title="登录"
         config={formConfig}
-        rows={8}
         onSubmit={onSubmit}
         layoutMode="custom"
-        // Btn={CustomBtn}
       >
         <div >
           <div>
@@ -34,17 +32,16 @@ export default function View() {
             </div>
           </div>
         </div>
-        <p>天若有情天亦老</p>
+        <p>hellow world</p>
         <EnForm.EnField className="form-cell" enfield name="useName" />
         <div className="region">
-          <div>123456---</div>
+          <div>任意位置</div>
           <EnForm.EnField className="form-cell" enfield name="region" />
-          <div>1258----</div>
+          <div>自由放置</div>
           <EnForm.EnField className="form-cell" enfield name="passWord" />
         </div>
         <EnForm.EnField className="form-cell" enfield name="select" />
      </EnForm>
     </div>
-    
   );
 }
