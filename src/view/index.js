@@ -12,36 +12,13 @@ export default function View() {
     console.log(form);
   };
 
-  // const CustomBtn = customBtn();
-
   return (
     <div className="app-conten">
       <EnForm
         title="登录"
         config={formConfig}
         onSubmit={onSubmit}
-        layoutMode="custom"
-      >
-        <div >
-          <div>
-            <div>
-              随意排列
-            </div>
-            <div>
-            <EnForm.EnField className="form-cell" enfield name="editname" />
-            </div>
-          </div>
-        </div>
-        <p>hellow world</p>
-        <EnForm.EnField className="form-cell" enfield name="useName" />
-        <div className="region">
-          <div>任意位置</div>
-          <EnForm.EnField className="form-cell" enfield name="region" />
-          <div>自由放置</div>
-          <EnForm.EnField className="form-cell" enfield name="passWord" />
-        </div>
-        <EnForm.EnField className="form-cell" enfield name="select" />
-     </EnForm>
+      />
     </div>
   );
 }

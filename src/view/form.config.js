@@ -5,27 +5,27 @@ const formConfig = {
     { 
       name: 'editname', 
       defaultValue:'6',
-      title: 'edit user name', 
+      title: 'this custom field', 
       Render: CustomInput,
       validate:[[(value,formValue)=>{
         if(String(value).length> String(formValue['region']).length){
-          return 'hellow region';
+          return '不能比region长';
         }
         return ''
       }, ['region']]],
-      required: '这是必11填的。。。' 
+      required: '这是必填项' 
     },  { 
       name: 'useName', 
-      defaultValue:'6',
+      defaultValue:'',
       title: 'user name', 
       type: 'input', 
       validate:[[(value,formValue)=>{
         if(String(value).length> String(formValue['region']).length){
-          return 'no big region';
+          return '不能比region长';
         }
         return ''
       }, ['region']]],
-      required: '这是必填的。。。' 
+      required: '这是必填项' 
     },
     { name: 'region',
       title: 'region',
