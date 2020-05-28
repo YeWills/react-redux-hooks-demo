@@ -45,6 +45,42 @@ const formConfig = {
       title: 'password', 
       type: 'input', 
       required: true
+    }, { 
+      name: 'passWord1', 
+      defaultValue:'1111', 
+      title: 'password', 
+      type: 'input', 
+      required: true
+    }, { 
+      name: 'passWord2', 
+      defaultValue:'1112', 
+      title: 'password', 
+      type: 'input', 
+      required: true
+    }, { 
+      name: 'passWord3', 
+      defaultValue:'1113', 
+      title: 'password', 
+      type: 'input', 
+      required: true
+    }, { 
+      name: 'passWord4', 
+      defaultValue:'1114', 
+      title: 'password4', 
+      type: 'input', 
+      required: true
+    }, { 
+      name: 'passWord5', 
+      defaultValue:'1115', 
+      title: 'password5', 
+      type: 'input', 
+      required: true
+    }, { 
+      name: 'passWord6', 
+      defaultValue:'1116', 
+      title: 'password', 
+      type: 'input', 
+      required: true
     },
     { name: 'select',
     title: 'place',

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
+
 import Field from './Field/Field';
 import EnhanceField from './Field/EnhanceField';
 import { Btn, getLayout, toArray, ThemeContext } from './utils';
@@ -38,7 +40,7 @@ export default function EnForm(props) {
   const onSubmit = () => {
     startValidate.current = true;
     const currentErrMsgs = validateForm(config, formValue, formDisplay);
-    const isValidatePass = Object.values(currentErrMsgs).every(err => !err);
+    const isValidatePass = Object.values(currentErrMsgs).every((err) => !err);
     setErrMsgs(currentErrMsgs);
     if (!isValidatePass) return;
     propsOnSubmit && propsOnSubmit(formValue);
@@ -88,7 +90,7 @@ export default function EnForm(props) {
 
 
   return (
-    <div className="enhance-form">
+    <div className={classNames('enhance-form', { blockDisplay: layoutMode === 'custom' })}>
       <div className="enform-content">
         {getContent()}
       </div>
