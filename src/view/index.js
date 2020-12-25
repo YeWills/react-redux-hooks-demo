@@ -1,44 +1,88 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import formConfig from './form.config';
-import EnForm from '../components/EnForm/EnForm';
-import {customBtn} from './component/customBtn';
-import './style.less';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+import About from './About'
 
-export default function View() {
-  const onSubmit = (form) => {
-    console.log('submit');
-    console.log(form);
-  };
-
-  const CustomBtn = customBtn();
-
+function Home() {
   return (
-    <div className="app-conten">
-      <EnForm
-        title="登录"
-        config={formConfig}
-        rows={8}
-        onSubmit={onSubmit}
-        layoutMode="custom"
-        // Btn={CustomBtn}
-      >
-        <div >
-          <EnForm.Field className="form-cell" enfield name="editname" />
-        </div>
-        
-        <p>天若有情天亦老</p>
-        <EnForm.Field className="form-cell" enfield name="useName" />
-        <div className="region">
-          <div>123456---</div>
-          <EnForm.Field className="form-cell" enfield name="region" />
-          <div>1258----</div>
-          <EnForm.Field className="form-cell" enfield name="passWord" />
-        </div>
-        <EnForm.Field className="form-cell" enfield name="select" />
-     </EnForm>
+    <div>
+      <h2>Home</h2>
     </div>
-    
   );
 }
+
+// function About() {
+//   return (
+//     <div>
+//       <h2>About</h2>
+//     </div>
+//   );
+// }
+
+function Topic({ match }) {
+  return (
+    <div>
+      <h3>{match.params.topicId}</h3>
+    </div>
+  );
+}
+
+
+function Topics({ match }) {
+  return (
+    <div>
+      <h2>Topics</h2>
+      <ul>
+        <li>
+          <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+        </li>
+      </ul>
+
+      <Route path={`${match.path}/:topicId`} component={Topic} />
+      <Route
+        exact
+        path={match.path}
+        render={() => <h3>Please select a topic.</h3>}
+      />
+    </div>
+  );
+}
+
+
+function BasicExample() {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/about/test">Abouttest</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+        </ul>
+
+        <hr />
+
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </div>
+    </Router>
+  );
+}
+
+
+export default BasicExample;
