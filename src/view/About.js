@@ -1,14 +1,7 @@
 import React from 'react';
+import Big from './Big';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-
-function Big() {
-  return (
-    <div>
-      <h2>Big</h2>
-    </div>
-  );
-}
 
 function Test() {
   return (

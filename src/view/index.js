@@ -70,6 +70,9 @@ function BasicExample() {
             <Link to="/about/test">Abouttest</Link>
           </li>
           <li>
+            <Link to="/about/big">要发请求，点击我</Link>
+          </li>
+          <li>
             <Link to="/topics">Topics</Link>
           </li>
         </ul>
