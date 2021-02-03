@@ -10,3 +10,5 @@ npm start;
 run http://localhost:3000/
 ```
 
+可配合 这个项目 https://github.com/YeWills/koa-demo/tree/http-request 做后台转发跨域请求。
+
